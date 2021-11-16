@@ -5,6 +5,7 @@ import { useResolved } from "../hooks/useResolved";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Chat from "./Chat";
+import SchedulerTeacher from "./SchedulerTeacher";
 import { ChatProvider } from "../context/ChatContext";
 import Scheduler from "./Scheduler";
 import PrivateRoute from "./PrivateRoute";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/signup" component={SignUp}></Route>
           <Route path="/login" component={Login}></Route>
           <Route path="/scheduler" component={Scheduler}></Route>
+          <Route path="/scheduler_teacher" component={SchedulerTeacher}></Route>
         </Switch>
       </ChatProvider>
     </div>

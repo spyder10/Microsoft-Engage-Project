@@ -15,16 +15,20 @@ export default function Chat() {
     selectChatClick,
     setSelectedChat,
   } = useChat();
-  const authUser = useAuth();
 
-  // useEffect(() => {
-  //   window.location.reload();
-  // }, [authUser]);
+  console.log(chatConfig);
+
+  const authUser = useAuth();
   return (
     <>
       <Navbar style={{ backgroundColor: "#99A799" }}>
         {" "}
-        <Link to="/scheduler">Scheduler</Link>
+        {chatConfig && chatConfig.role === "student" && (
+          <Link to="/scheduler">Scheduler</Link>
+        )}
+        {chatConfig && chatConfig.role === "teacher" && (
+          <Link to="/scheduler_teacher">SchedulerTeacher</Link>
+        )}
       </Navbar>
       {!!chatConfig && (
         <ChatEngine

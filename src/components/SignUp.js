@@ -31,7 +31,7 @@ function SignUp() {
       .min(3, "Must be at least 3 characters"),
   });
 
-  const signup = ({ email, userName, password }, { setSubmitting }) => {
+  const signup = ({ email, userName, password, role }, { setSubmitting }) => {
     fb.auth
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
@@ -49,7 +49,7 @@ function SignUp() {
             fb.firestore
               .collection("chatUsers")
               .doc(res.user.uid)
-              .set({ userName, avatar: " " });
+              .set({ userName, avatar: "", role });
           });
         } else {
           setServerError(
@@ -109,6 +109,7 @@ function SignUp() {
                     type="password"
                     name="verifyPassword"
                   ></FormField>
+                  <FormField label="Role" type="text" name="role"></FormField>
                   <div className="auth-link-container">
                     Already got an account?{" "}
                     <span
