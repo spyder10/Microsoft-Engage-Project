@@ -49,7 +49,7 @@ function SignUp() {
             fb.firestore
               .collection("chatUsers")
               .doc(res.user.uid)
-              .set({ userName, avatar: "", role });
+              .set({ userName, avatar: "", role, isfilled: false });
           });
         } else {
           setServerError(

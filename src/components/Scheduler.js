@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import { useChat } from "../context/ChatContext";
 import { getChat } from "react-chat-engine";
 import CustomNavbar from "./CustomNavbar";
+import { fb } from "../service/firebase";
 import {
   Navbar,
   Card,
@@ -17,12 +18,17 @@ import {
 
 export default function Scheduler() {
   const { authUser } = useAuth();
+  const { chatConfig } = useChat();
   const nameRef = useRef();
   const branchRef = useRef();
   const rollRef = useRef();
   const cgpaRef = useRef();
   const vaccinationStatusRef = useRef();
   const preferenceRef = useRef();
+
+  useEffect(() => {
+    console.log(chatConfig);
+  }, [chatConfig]);
 
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -64,6 +70,11 @@ export default function Scheduler() {
     vaccinationStatusRef.current.value = "Choose your vaccination status";
     preferenceRef.current.value = "Choose your preference";
 
+    fb.firestore
+      .collection("chatUsers")
+      .doc(authUser.uid)
+      .update({ isfilled: true });
+
     addDetailHandler(student);
   };
   return (
@@ -83,9 +94,14 @@ export default function Scheduler() {
               recorded here. Based on your GPA, you will be awarded your
               preference.{" "}
             </div>
-            {isLoading && (
-              <Alert variant="danger">Your responses have been submitted</Alert>
+            {chatConfig && chatConfig.isfilled && (
+              <Alert variant="danger">
+                We got your response. Thank you for filling the form.
+              </Alert>
             )}
+            {/* {isLoading && (
+              <Alert variant="danger">Your responses have been submitted</Alert>
+            )} */}
             <Form onSubmit={submitHandler}>
               <Form.Group className="mb-3" id="name">
                 <Form.Label>Name</Form.Label>
@@ -128,7 +144,11 @@ export default function Scheduler() {
                 <option value="oddDay">Odd-Day</option>
                 <option value="evenDay">Even-Day</option>
               </Form.Select>
-              <Button disabled={isLoading} className="w-100 mt-3" type="submit">
+              <Button
+                disabled={isLoading || (chatConfig && chatConfig.isfilled)}
+                className="w-100 mt-3"
+                type="submit"
+              >
                 Submit
               </Button>
             </Form>
