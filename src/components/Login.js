@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { fb } from "../service/firebase";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect, Link } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import React from "react";

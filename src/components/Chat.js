@@ -4,6 +4,7 @@ import { useChat } from "../context/ChatContext";
 import { getChats, ChatEngine } from "react-chat-engine";
 import useAuth from "../hooks/useAuth";
 import { Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export default function Chat() {
   const {
@@ -16,13 +17,15 @@ export default function Chat() {
   } = useChat();
   const authUser = useAuth();
 
-  useEffect(() => {
-    console.log("My Chats: ", myChats);
-  }, [myChats]);
-
+  // useEffect(() => {
+  //   window.location.reload();
+  // }, [authUser]);
   return (
     <>
-      <Navbar style={{ backgroundColor: "#99A799" }}> Chat App</Navbar>
+      <Navbar style={{ backgroundColor: "#99A799" }}>
+        {" "}
+        <Link to="/scheduler">Scheduler</Link>
+      </Navbar>
       {!!chatConfig && (
         <ChatEngine
           height="100vh"

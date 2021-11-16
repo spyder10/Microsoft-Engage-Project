@@ -2,6 +2,7 @@ import { Formik, Form } from "formik";
 import { useHistory } from "react-router-dom";
 import FormField from "../components/FormField";
 import * as Yup from "yup";
+import { Card, Container } from "react-bootstrap";
 import { useState } from "react";
 import { fb } from "../service/firebase";
 
@@ -69,54 +70,68 @@ function SignUp() {
   };
 
   return (
-    <div className="auth-form">
-      <h1>SignUp</h1>
-      <Formik
-        onSubmit={signup}
-        validateOnMount={true}
-        initialValues={defaultValues}
-        validationSchema={validationSchema}
-      >
-        {({ isValid, isSubmitting }) => {
-          return (
-            <Form>
-              <FormField
-                label="User Name"
-                type="text"
-                name="userName"
-              ></FormField>
-              <FormField label="Email" type="email" name="email"></FormField>
-              <FormField
-                label="Password"
-                type="password"
-                name="password"
-              ></FormField>
-              <FormField
-                label="Verify Password"
-                type="password"
-                name="verifyPassword"
-              ></FormField>
-              <div className="auth-link-container">
-                Already got an account?{" "}
-                <span
-                  className="auth-link"
-                  onClick={() => history.push("/login")}
-                >
-                  Log In!
-                </span>
-              </div>
-
-              <button disabled={isSubmitting || !isValid} type="submit">
-                {" "}
-                SignUp{" "}
-              </button>
-            </Form>
-          );
+    <Container className="center">
+      <Card
+        className="mt-4"
+        style={{
+          width: "50rem",
         }}
-      </Formik>
+      >
+        <div className="auth-form">
+          <h1>SignUp</h1>
 
-      {!!serverError && <div className="error">{serverError}</div>}
-    </div>
+          <Formik
+            onSubmit={signup}
+            validateOnMount={true}
+            initialValues={defaultValues}
+            validationSchema={validationSchema}
+          >
+            {({ isValid, isSubmitting }) => {
+              return (
+                <Form>
+                  <FormField
+                    label="User Name"
+                    type="text"
+                    name="userName"
+                  ></FormField>
+                  <FormField
+                    label="Email"
+                    type="email"
+                    name="email"
+                  ></FormField>
+                  <FormField
+                    label="Password"
+                    type="password"
+                    name="password"
+                  ></FormField>
+                  <FormField
+                    label="Verify Password"
+                    type="password"
+                    name="verifyPassword"
+                  ></FormField>
+                  <div className="auth-link-container">
+                    Already got an account?{" "}
+                    <span
+                      className="auth-link"
+                      onClick={() => history.push("/login")}
+                    >
+                      Log In!
+                    </span>
+                  </div>
+
+                  <button disabled={isSubmitting || !isValid} type="submit">
+                    {" "}
+                    SignUp{" "}
+                  </button>
+                </Form>
+              );
+            }}
+          </Formik>
+
+          {!!serverError && <div className="error">{serverError}</div>}
+        </div>
+      </Card>
+    </Container>
   );
 }
 export default SignUp;
