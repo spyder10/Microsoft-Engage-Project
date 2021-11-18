@@ -13,7 +13,9 @@ export default function StudentDetailItem(props) {
           <Card.Subtitle className="mb-2 text-muted">
             {props.roll}
           </Card.Subtitle>
-          <Card.Text>{props.cgpa}</Card.Text>
+          <Card.Text>
+            {props.cgpa} {props.preference}{" "}
+          </Card.Text>
         </Card.Body>
       </Card>
     </>

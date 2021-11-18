@@ -5,6 +5,23 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import React from "react";
 import FormField from "./FormField";
+import {
+  Grid,
+  Paper,
+  Avatar,
+  TextField,
+  Button,
+  Typography,
+  Link as MaterialLink,
+} from "@material-ui/core";
+import { Card } from "react-bootstrap";
+
+const paperStyle = {
+  padding: 20,
+  // height: "73vh",
+  width: 400,
+  margin: "0 auto",
+};
 
 export default function Login() {
   const history = useHistory();
@@ -42,45 +59,70 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-form">
-      <h1>Login</h1>
-      <Formik
-        onSubmit={login}
-        initialValues={defaultValues}
-        validateOnMount={true}
-        validationSchema={validationSchema}
-      >
-        {({ isValid, isSubmitting }) => {
-          return (
-            <Form>
-              <FormField label="Email" type="email" name="email"></FormField>
-              <FormField
-                label="Password"
-                type="password"
-                name="password"
-              ></FormField>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <Paper style={paperStyle}>
+        <div className="auth-form">
+          <Grid align="center">
+            <h2 className="my-4 font-weight-bold-display-4 ">Login</h2>
+          </Grid>
+          <Formik
+            onSubmit={login}
+            initialValues={defaultValues}
+            validateOnMount={true}
+            validationSchema={validationSchema}
+          >
+            {({ isValid, isSubmitting }) => {
+              return (
+                <Form>
+                  <FormField
+                    label="Email"
+                    type="email"
+                    name="email"
+                  ></FormField>
+                  <FormField
+                    label="Password"
+                    type="password"
+                    name="password"
+                  ></FormField>
 
-              <div className="auth-link-container">
-                Don't have an account yet ?{" "}
-                <span
-                  className="auth-link"
-                  onClick={() => {
-                    history.push("/signup");
-                  }}
-                >
-                  Sign Up!
-                </span>
-              </div>
+                  <Grid container className="my-3">
+                    <Typography>
+                      Don't have an account yet ?{" "}
+                      <MaterialLink>
+                        <span
+                          className="auth-link"
+                          onClick={() => {
+                            history.push("/signup");
+                          }}
+                        >
+                          Sign Up!
+                        </span>
+                      </MaterialLink>
+                    </Typography>
+                  </Grid>
 
-              <button disabled={isSubmitting || !isValid} type="submit">
-                {" "}
-                Login{" "}
-              </button>
-            </Form>
-          );
-        }}
-      </Formik>
-      {!!serverError && <div className="error">{serverError}</div>}
-    </div>
+                  <button
+                    className="btn btn-dark mt-3 align-items-center"
+                    disabled={isSubmitting || !isValid}
+                    type="submit"
+                  >
+                    {" "}
+                    Login{" "}
+                  </button>
+                </Form>
+              );
+            }}
+          </Formik>
+          {!!serverError && <div className="error">{serverError}</div>}
+        </div>
+      </Paper>
+    </Grid>
   );
 }

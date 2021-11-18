@@ -5,6 +5,15 @@ import * as Yup from "yup";
 import { Card, Container } from "react-bootstrap";
 import { useState } from "react";
 import { fb } from "../service/firebase";
+import {
+  Grid,
+  Paper,
+  Avatar,
+  TextField,
+  Button,
+  Typography,
+  Link as MaterialLink,
+} from "@material-ui/core";
 
 function SignUp() {
   const history = useHistory();
@@ -15,6 +24,12 @@ function SignUp() {
     password: "",
     userName: "",
     verifyPassword: "",
+  };
+  const paperStyle = {
+    padding: 20,
+    // height: "73vh",
+    width: 400,
+    margin: "0 auto",
   };
 
   const validationSchema = Yup.object().shape({
@@ -70,15 +85,19 @@ function SignUp() {
   };
 
   return (
-    <Container className="center">
-      <Card
-        className="mt-4"
-        style={{
-          width: "50rem",
-        }}
-      >
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      style={{ minHeight: "100vh" }}
+    >
+      <Paper style={paperStyle}>
         <div className="auth-form">
-          <h1>SignUp</h1>
+          <Grid align="center">
+            <h2 className="my-4 font-weight-bold-display-4 ">Sign Up</h2>
+          </Grid>
 
           <Formik
             onSubmit={signup}
@@ -110,17 +129,26 @@ function SignUp() {
                     name="verifyPassword"
                   ></FormField>
                   <FormField label="Role" type="text" name="role"></FormField>
-                  <div className="auth-link-container">
-                    Already got an account?{" "}
-                    <span
-                      className="auth-link"
-                      onClick={() => history.push("/login")}
-                    >
-                      Log In!
-                    </span>
-                  </div>
 
-                  <button disabled={isSubmitting || !isValid} type="submit">
+                  <Grid container className="my-3">
+                    <Typography>
+                      Already got an account?{" "}
+                      <MaterialLink>
+                        <span
+                          className="auth-link"
+                          onClick={() => history.push("/login")}
+                        >
+                          Log In!
+                        </span>
+                      </MaterialLink>
+                    </Typography>
+                  </Grid>
+
+                  <button
+                    className="btn btn-dark mt-3"
+                    disabled={isSubmitting || !isValid}
+                    type="submit"
+                  >
                     {" "}
                     SignUp{" "}
                   </button>
@@ -131,8 +159,8 @@ function SignUp() {
 
           {!!serverError && <div className="error">{serverError}</div>}
         </div>
-      </Card>
-    </Container>
+      </Paper>
+    </Grid>
   );
 }
 export default SignUp;
