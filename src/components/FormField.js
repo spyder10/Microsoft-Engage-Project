@@ -8,25 +8,24 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
+import "../../src/index.css";
+import InputTextfield from "./InputTextfield";
 
 function FormField(props) {
   return (
     // <label>
     //   {props.label}
     <>
-      <Field
-        as={TextField}
-        label={props.label}
-        type={props.type}
-        name={props.name}
-        fullWidth
-      ></Field>
-      <ErrorMessage
-        className="error"
-        component="div"
-        name={props.name}
-      ></ErrorMessage>
-      {/* </label> */}
+      <label className="text-light">{props.label}</label>
+      <div className="text-light">
+        <Field as="input" type={props.type} name={props.name} fullWidth></Field>
+        <ErrorMessage
+          className="text-danger"
+          component="div"
+          name={props.name}
+        ></ErrorMessage>
+        {/* </label> */}
+      </div>
     </>
   );
 }

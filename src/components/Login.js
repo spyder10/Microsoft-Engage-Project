@@ -5,6 +5,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import React from "react";
 import FormField from "./FormField";
+import Typed from "react-typed";
 import {
   Grid,
   Paper,
@@ -15,10 +16,16 @@ import {
   Link as MaterialLink,
 } from "@material-ui/core";
 import { Card } from "react-bootstrap";
+import "../../src/index.css";
+
+import zIndex from "@material-ui/core/styles/zIndex";
 
 const paperStyle = {
   padding: 20,
   // height: "73vh",
+  background: "#000000",
+  opacity: "0.7",
+  color: "white",
   width: 400,
   margin: "0 auto",
 };
@@ -59,70 +66,109 @@ export default function Login() {
   };
 
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Paper style={paperStyle}>
-        <div className="auth-form">
-          <Grid align="center">
-            <h2 className="my-4 font-weight-bold-display-4 ">Login</h2>
-          </Grid>
-          <Formik
-            onSubmit={login}
-            initialValues={defaultValues}
-            validateOnMount={true}
-            validationSchema={validationSchema}
-          >
-            {({ isValid, isSubmitting }) => {
-              return (
-                <Form>
-                  <FormField
-                    label="Email"
-                    type="email"
-                    name="email"
-                  ></FormField>
-                  <FormField
-                    label="Password"
-                    type="password"
-                    name="password"
-                  ></FormField>
-
-                  <Grid container className="my-3">
-                    <Typography>
-                      Don't have an account yet ?{" "}
-                      <MaterialLink>
-                        <span
-                          className="auth-link"
-                          onClick={() => {
-                            history.push("/signup");
-                          }}
-                        >
-                          Sign Up!
-                        </span>
-                      </MaterialLink>
-                    </Typography>
-                  </Grid>
-
-                  <button
-                    className="btn btn-dark mt-3 align-items-center"
-                    disabled={isSubmitting || !isValid}
-                    type="submit"
-                  >
-                    {" "}
-                    Login{" "}
-                  </button>
-                </Form>
-              );
-            }}
-          </Formik>
-          {!!serverError && <div className="error">{serverError}</div>}
+    <>
+      <header className="showcase">
+        <div className="showcase-top row">
+          <h1 className="text-danger text-center mt-3">Scheduler</h1>
         </div>
-      </Paper>
-    </Grid>
+        <div className="showcase-content box">
+          <h2 className="text-danger">
+            Microsoft Engage Mentorship Program 2021
+          </h2>
+          <Typed
+            className="typed-text"
+            strings={[
+              "Take Preference Surveys",
+              "Visulize Student Preferences",
+              "Benificial for 50% Attendence Model",
+              "Collaborate with students",
+              "Make Attendence Sheets",
+            ]}
+            typeSpeed={40}
+            backspeed={60}
+            loop
+          />
+        </div>
+        <div className="bg-col">
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            style={{
+              minHeight: "100vh",
+              zIndex: 90,
+              position: "absolute",
+              maxWidth: "450px",
+              height: "630px",
+              marginLeft: "50%",
+              borderRadius: "10px",
+              boxSizing: "border-box",
+              transform: "translateX(-50%) translateY(10%)",
+            }}
+          >
+            <Paper style={paperStyle}>
+              <div>
+                <Grid align="center">
+                  <h2 className="my-4 font-weight-bold-display-4 ">Login</h2>
+                </Grid>
+                <Formik
+                  onSubmit={login}
+                  initialValues={defaultValues}
+                  validateOnMount={true}
+                  validationSchema={validationSchema}
+                >
+                  {({ isValid, isSubmitting }) => {
+                    return (
+                      <Form>
+                        <FormField
+                          label="Email"
+                          type="email"
+                          name="email"
+                        ></FormField>
+                        <FormField
+                          label="Password"
+                          type="password"
+                          name="password"
+                        ></FormField>
+
+                        <Grid container className="my-3">
+                          <Typography>
+                            Don't have an account yet ?{" "}
+                            <MaterialLink>
+                              <span
+                                className="auth-link text-danger font-weight-bold"
+                                onClick={() => {
+                                  history.push("/signup");
+                                }}
+                              >
+                                Sign Up!
+                              </span>
+                            </MaterialLink>
+                          </Typography>
+                        </Grid>
+
+                        <button
+                          className="btn btn-dark mt-3"
+                          disabled={isSubmitting || !isValid}
+                          type="submit"
+                        >
+                          {" "}
+                          Login{" "}
+                        </button>
+                      </Form>
+                    );
+                  }}
+                </Formik>
+                {!!serverError && <div className="error">{serverError}</div>}
+              </div>
+            </Paper>
+          </Grid>
+        </div>
+      </header>
+      <footer class="footer">
+        <h6 className="text-center mt-4">Contact Us</h6>
+      </footer>
+    </>
   );
 }
