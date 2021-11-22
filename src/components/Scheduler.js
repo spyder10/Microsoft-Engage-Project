@@ -14,6 +14,8 @@ import {
   Container,
   Nav,
   NavDropdown,
+  Row,
+  Col,
 } from "react-bootstrap";
 
 export default function Scheduler() {
@@ -80,80 +82,107 @@ export default function Scheduler() {
   return (
     <>
       <CustomNavbar></CustomNavbar>
-      <Container className="center">
-        <Card
-          className="mt-4"
-          style={{
-            width: "50rem",
-          }}
-        >
-          <Card.Body>
-            <h2>Fill your preference</h2>
-            <div className="mb-3">
-              Your Prefernce of visiting college (odd-days/even-days) is being
-              recorded here. Based on your GPA, you will be awarded your
-              preference.{" "}
-            </div>
-            {chatConfig && chatConfig.isfilled && (
-              <Alert variant="danger">
-                We got your response. Thank you for filling the form.
-              </Alert>
-            )}
-            {/* {isLoading && (
+      <Container>
+        <Row className=" justify-content-center align-self-center">
+          <Col xs={8} className="mx-auto">
+            <Card
+              className="mt-4"
+              // style={{
+              //   width: "50rem",
+              // }}
+              bg="dark"
+              text="light"
+            >
+              <Card.Body>
+                <h2 className="text-light">Fill your preference</h2>
+                <div className="mb-3">
+                  Your Prefernce of visiting college (odd-days/even-days) is
+                  being recorded here. Based on your GPA, you will be awarded
+                  your preference.{" "}
+                </div>
+                {chatConfig && chatConfig.isfilled && (
+                  <Alert variant="danger">
+                    We got your response. Thank you for filling the form.
+                  </Alert>
+                )}
+                {/* {isLoading && (
               <Alert variant="danger">Your responses have been submitted</Alert>
             )} */}
-            <Form onSubmit={submitHandler}>
-              <Form.Group className="mb-3" id="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" ref={nameRef} required />
-              </Form.Group>
-              <Form.Group className="mb-3" id="branch">
-                <Form.Label>Branch</Form.Label>
-                <Form.Control type="text" ref={branchRef} required />
-              </Form.Group>
-              <Form.Group className="mb-3" id="roll">
-                <Form.Label>Roll Number</Form.Label>
-                <Form.Control type="text" ref={rollRef} required />
-              </Form.Group>
-              <Form.Group className="mb-3" id="CGPA">
-                <Form.Label>CGPA</Form.Label>
-                <Form.Control type="text" ref={cgpaRef} required />
-              </Form.Group>
-              <Form.Select
-                required
-                ref={vaccinationStatusRef}
-                className="mb-3"
-                id="vaccinationStatus"
-                size="lg"
-              >
-                <option>Choose your vaccination status</option>
-                <option value="notVaccinated">Not Vaccinated</option>
-                <option value="partiallyVaccinated">
-                  Partially Vaccinated
-                </option>
-                <option value="fullyVaccinated">Fully Vaccinated</option>
-              </Form.Select>
-              <Form.Select
-                required
-                ref={preferenceRef}
-                className="mb-3"
-                aria-label="Preference"
-                size="lg"
-              >
-                <option>Choose your preference</option>
-                <option value="oddDay">Odd-Day</option>
-                <option value="evenDay">Even-Day</option>
-              </Form.Select>
-              <Button
-                disabled={isLoading || (chatConfig && chatConfig.isfilled)}
-                className="w-100 mt-3"
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
+                <Form onSubmit={submitHandler}>
+                  <Form.Group className="mb-3" id="name">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                      className="form-bg-student"
+                      type="text"
+                      ref={nameRef}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" id="branch">
+                    <Form.Label>Branch</Form.Label>
+                    <Form.Control
+                      className="form-bg-student"
+                      type="text"
+                      ref={branchRef}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" id="roll">
+                    <Form.Label>Roll Number</Form.Label>
+                    <Form.Control
+                      className="form-bg-student"
+                      type="text"
+                      ref={rollRef}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" id="CGPA">
+                    <Form.Label>CGPA</Form.Label>
+                    <Form.Control
+                      className="form-bg-student"
+                      type="text"
+                      ref={cgpaRef}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Select
+                    required
+                    ref={vaccinationStatusRef}
+                    className="mb-3 form-bg-student"
+                    id="vaccinationStatus"
+                    size="lg"
+                  >
+                    <option>Choose your vaccination status</option>
+                    <option value="notVaccinated">Not Vaccinated</option>
+                    <option value="partiallyVaccinated">
+                      Partially Vaccinated
+                    </option>
+                    <option value="fullyVaccinated">Fully Vaccinated</option>
+                  </Form.Select>
+                  <Form.Select
+                    required
+                    ref={preferenceRef}
+                    className="mb-3 form-bg-student"
+                    aria-label="Preference"
+                    size="lg"
+                  >
+                    <option>Choose your preference</option>
+                    <option value="oddDay">Odd-Day</option>
+                    <option value="evenDay">Even-Day</option>
+                  </Form.Select>
+                  <Button
+                    variant="danger text-light"
+                    disabled={isLoading || (chatConfig && chatConfig.isfilled)}
+                    className="w-100 mt-3"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </Container>
     </>
   );

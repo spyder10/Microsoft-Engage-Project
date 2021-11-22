@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useChat } from "../context/ChatContext";
 import { getChats, ChatEngine } from "react-chat-engine";
 import useAuth from "../hooks/useAuth";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
 
@@ -23,28 +23,45 @@ export default function Chat() {
 
   return (
     <>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" expand="lg">
         <Container fluid>
-          <Nav className="me-auto">
+          <Navbar.Brand href="#home">
+            <h1 className="text-danger">Scheduler</h1>
+          </Navbar.Brand>
+          <Nav className="me-auto mx-4">
+            {chatConfig && chatConfig.role === "student" && (
+              <h3>
+                <Badge bg="secondary">
+                  <Link to="/scheduler" className="text-decoration-none">
+                    Student's Desk
+                  </Link>
+                </Badge>
+              </h3>
+            )}
+            {chatConfig && chatConfig.role === "teacher" && (
+              <h3>
+                <Badge bg="secondary">
+                  <Link
+                    to="/scheduler_teacher"
+                    className="text-decoration-none"
+                  >
+                    Teacher's Desk{" "}
+                  </Link>
+                </Badge>
+              </h3>
+            )}
+          </Nav>
+          <Nav>
             <Avatar
               className="mx-2"
               sx={{ height: "70px", width: "70px" }}
             ></Avatar>
-            <Navbar.Brand className="avatar">
+            <Navbar.Brand className="avatar text-light">
               {chatConfig
                 ? chatConfig.userName.charAt(0).toUpperCase() +
                   chatConfig.userName.slice(1)
                 : " "}
             </Navbar.Brand>{" "}
-          </Nav>
-          <Nav>
-            <i class="bi bi-calendar"></i>
-            {chatConfig && chatConfig.role === "student" && (
-              <Link to="/scheduler">Scheduler</Link>
-            )}
-            {chatConfig && chatConfig.role === "teacher" && (
-              <Link to="/scheduler_teacher">SchedulerTeacher </Link>
-            )}
           </Nav>
         </Container>
       </Navbar>

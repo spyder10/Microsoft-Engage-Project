@@ -1,8 +1,9 @@
 import { useCallback, useState, useEffect, useRef } from "react";
 import CustomNavbar from "./CustomNavbar";
-import { Container, Button, Card, Form } from "react-bootstrap";
+import { Container, Button, Card, Form, Row, Col } from "react-bootstrap";
 import StudentDetailItem from "./StudentDetailItem";
 import BasicTable from "./SchedulerTeacherTable";
+import { Pie, defaults } from "react-chartjs-2";
 import { FieldArray } from "formik";
 
 export default function SchedulerTeacher() {
@@ -11,6 +12,8 @@ export default function SchedulerTeacher() {
   const [oddTableData, setOddTableData] = useState([]);
   const [evenTableData, setEvenTableData] = useState([]);
   const selectedBranchRef = useRef();
+  const [chartDataArray, setChartDataArray] = useState([]);
+  const [chartThings, setChartThings] = useState(false);
 
   const generateTablesHandler = () => {
     if (details.length > 0) {
@@ -70,6 +73,8 @@ export default function SchedulerTeacher() {
     }
 
     const data = await response.json();
+    let evenDayCount = 0;
+    let oddDayCount = 0;
 
     const studentList = [];
     for (const key in data) {
@@ -77,8 +82,14 @@ export default function SchedulerTeacher() {
         id: key,
         ...data[key],
       });
+      if (data[key].preference === "evenDay") {
+        evenDayCount++;
+      } else {
+        oddDayCount++;
+      }
     }
-
+    setChartDataArray([evenDayCount, oddDayCount]);
+    setChartThings(true);
     setdetails(studentList);
   };
   const content = details.map((studentData) => {
@@ -126,13 +137,77 @@ export default function SchedulerTeacher() {
       {/* <Card>
         <Button onClick={fetchStudentHandler}>Fetch Student preferences</Button>
       </Card> */}
-      <Container className="d-flex my-4">{content}</Container>
-      <Container className="d-flex justify-content-center">
-        <Button variant="danger text-light" onClick={generateTablesHandler}>
-          Make Attendence Sheet for Odd and Even Days based on Assigned
-          Preference
-        </Button>{" "}
+
+      <Container>
+        <Row>
+          <Col sm={8}>
+            {" "}
+            <Container className="d-flex my-4 infoCards"> {content}</Container>
+          </Col>
+          <Col sm={4}>
+            <div className="my-4">
+              <Pie
+                data={{
+                  labels: ["Even Day", "Odd Day"],
+                  datasets: [
+                    {
+                      label: "# of votes",
+                      data: [...chartDataArray],
+                      backgroundColor: [
+                        "rgba(255, 99, 132, 0.2)",
+                        "rgba(54, 162, 235, 0.2)",
+                      ],
+                      borderColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                      ],
+                      borderWidth: 1,
+                    },
+                  ],
+                }}
+                height={400}
+                width={600}
+                options={{
+                  maintainAspectRatio: false,
+                  // scales: {
+                  //   yAxes: [
+                  //     {
+                  //       ticks: {
+                  //         beginAtZero: true,
+                  //       },
+                  //     },
+                  //   ],
+                  // },
+                  legend: {
+                    labels: {
+                      fontSize: 25,
+                    },
+                  },
+                  plugins: {
+                    title: {
+                      display: chartThings,
+                      color: "#e6e6e6",
+                      text: "Graphs stating preference of students",
+                    },
+                    legend: {
+                      display: chartThings,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
       </Container>
+
+      {chartThings && (
+        <Container className="d-flex justify-content-center">
+          <Button variant="danger text-light" onClick={generateTablesHandler}>
+            Make Attendence Sheet for Odd and Even Days based on Assigned
+            Preference
+          </Button>{" "}
+        </Container>
+      )}
 
       {/* {tableData.length > 0 && <BasicTable tableData={tableData} caption="List of students"></BasicTable>} */}
       {oddTableData.length > 0 && (

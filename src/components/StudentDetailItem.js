@@ -1,11 +1,15 @@
 import React from "react";
-import { Card } from "react-bootstrap";
-import "../../src/index.css";
+import { Card, Container, Row, Col } from "react-bootstrap";
 
 export default function StudentDetailItem(props) {
   return (
     <>
-      <Card style={{ width: "18rem" }} className="mx-3" bg="dark" text="light">
+      <Card
+        // style={{ length: "18rem" }}
+        className="mx-3 my-2"
+        bg="dark"
+        text="light"
+      >
         <Card.Body>
           <Card.Title>{props.name.toUpperCase()}</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">

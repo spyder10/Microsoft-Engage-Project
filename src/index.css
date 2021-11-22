@@ -449,6 +449,13 @@ input:valid ~ .floating-label {
   font-size: 2rem;
   color: whitesmoke;
 }
+.infoCards {
+  display: flex;
+  flex-wrap: wrap;
+}
+.form-bg-student {
+  opacity: 0.9 !important;
+}
 @media (max-height: 600px) {
   .showcase-content {
     margin-top: 3rem;
