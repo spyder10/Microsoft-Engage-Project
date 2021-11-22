@@ -5,6 +5,8 @@ import StudentDetailItem from "./StudentDetailItem";
 import BasicTable from "./SchedulerTeacherTable";
 import { Pie, defaults } from "react-chartjs-2";
 import { FieldArray } from "formik";
+import CreateNewForm from "./CreateNewForm";
+import CustomOptions from "./CustomOptions";
 
 export default function SchedulerTeacher() {
   const [details, setdetails] = useState([]);
@@ -12,8 +14,55 @@ export default function SchedulerTeacher() {
   const [oddTableData, setOddTableData] = useState([]);
   const [evenTableData, setEvenTableData] = useState([]);
   const selectedBranchRef = useRef();
+  const selectedFormRef = useRef();
   const [chartDataArray, setChartDataArray] = useState([]);
   const [chartThings, setChartThings] = useState(false);
+  const [branchThings, setBranchThings] = useState(false);
+  const [form, setForm] = useState("");
+  const [formOptions, setFormOptions] = useState([]);
+  const [preferenceOptions, setPreferenceOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      const response = await fetch(
+        "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms.json"
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+      const data = await response.json();
+
+      let tempFormOptions = [];
+      let tempPreferenceOptions = [];
+
+      for (const key in data) {
+        tempFormOptions.push(key);
+      }
+      console.log(tempFormOptions);
+      setFormOptions([...tempFormOptions]);
+    };
+    fetchForms();
+  }, []);
+
+  const fetchPreferenceOptions = async (selectedForm) => {
+    const response = await fetch(
+      "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms/" +
+        selectedForm +
+        "/.json"
+    );
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+    const data = await response.json();
+
+    let tempPreferenceOptions = [];
+    for (const key in data) {
+      tempPreferenceOptions.push(data[key].option1);
+      tempPreferenceOptions.push(data[key].option2);
+    }
+    console.log(tempPreferenceOptions);
+    setPreferenceOptions([...tempPreferenceOptions]);
+  };
 
   const generateTablesHandler = () => {
     if (details.length > 0) {
@@ -26,20 +75,20 @@ export default function SchedulerTeacher() {
       let even_count = 0;
 
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].preference === "oddDay") {
+        if (arr[i].preference === preferenceOptions[0]) {
           if (odd_count < max_val_odd) {
-            arr[i] = { ...arr[i], assignedPreference: "Odd Day" };
+            arr[i] = { ...arr[i], assignedPreference: preferenceOptions[0] };
             odd_count++;
           } else {
-            arr[i] = { ...arr[i], assignedPreference: "Even Day" };
+            arr[i] = { ...arr[i], assignedPreference: preferenceOptions[1] };
             even_count++;
           }
         } else {
           if (even_count < max_val_even) {
-            arr[i] = { ...arr[i], assignedPreference: "Even Day" };
+            arr[i] = { ...arr[i], assignedPreference: preferenceOptions[1] };
             even_count++;
           } else {
-            arr[i] = { ...arr[i], assignedPreference: "Odd Day" };
+            arr[i] = { ...arr[i], assignedPreference: preferenceOptions[0] };
             odd_count++;
           }
         }
@@ -47,7 +96,7 @@ export default function SchedulerTeacher() {
       let oddDayTable = [];
       let evenDayTable = [];
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].assignedPreference === "Odd Day") {
+        if (arr[i].assignedPreference === preferenceOptions[0]) {
           oddDayTable.push({ ...arr[i] });
         } else {
           evenDayTable.push({ ...arr[i] });
@@ -64,17 +113,19 @@ export default function SchedulerTeacher() {
 
   const fetchStudentHandler = async (selectedBranch) => {
     const response = await fetch(
-      "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/studentDetails/" +
+      "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/" +
+        form +
+        "/" +
         selectedBranch +
         ".json"
     );
     if (!response.ok) {
       throw new Error("Something went wrong!");
     }
-
     const data = await response.json();
-    let evenDayCount = 0;
-    let oddDayCount = 0;
+    console.log(data);
+    let option1Count = 0;
+    let option2Count = 0;
 
     const studentList = [];
     for (const key in data) {
@@ -82,13 +133,13 @@ export default function SchedulerTeacher() {
         id: key,
         ...data[key],
       });
-      if (data[key].preference === "evenDay") {
-        evenDayCount++;
+      if (data[key].preference === preferenceOptions[0]) {
+        option1Count++;
       } else {
-        oddDayCount++;
+        option2Count++;
       }
     }
-    setChartDataArray([evenDayCount, oddDayCount]);
+    setChartDataArray([option1Count, option2Count]);
     setChartThings(true);
     setdetails(studentList);
   };
@@ -104,36 +155,88 @@ export default function SchedulerTeacher() {
     e.preventDefault();
     fetchStudentHandler(selectedBranchRef.current.value);
   };
+
+  const selectedFormHandler = (e) => {
+    e.preventDefault();
+    setForm(selectedFormRef.current.value);
+    fetchPreferenceOptions(selectedFormRef.current.value);
+    console.log(selectedFormRef.current.value);
+    setBranchThings(true);
+  };
+
   return (
     <>
       <CustomNavbar></CustomNavbar>
       <Container>
-        <label className="my-4">
-          <h3>Select the branch below to view responses of the students</h3>{" "}
-        </label>
+        <Row>
+          <Col>
+            <Container>
+              <label className="my-4">
+                <h3>Select the Preference form to view the results</h3>{" "}
+              </label>
 
-        <Form onSubmit={handlebranchSelect}>
-          <Form.Select
-            aria-label="Default select example"
-            ref={selectedBranchRef}
-            className="bg-dark text-light"
-          >
-            <option>Select Branch</option>
-            <option value="CSE">CSE</option>
-            <option value="ECE">ECE</option>
-            <option value="EEE">EEE</option>
-          </Form.Select>
-          <Container className="d-flex justify-content-center">
-            <Button
-              className="mt-3 btn-outline-dark text-light"
-              variant="danger"
-              type="submit"
-            >
-              Submit
-            </Button>
-          </Container>
-        </Form>
+              <Form onSubmit={selectedFormHandler}>
+                <Form.Select
+                  aria-label="Default select example"
+                  ref={selectedFormRef}
+                  className="bg-dark text-light"
+                >
+                  <option>Select Form</option>
+                  {formOptions.map((option) => {
+                    return (
+                      <CustomOptions
+                        value={option}
+                        text={option}
+                      ></CustomOptions>
+                    );
+                  })}
+                </Form.Select>
+                <Container className="d-flex justify-content-center">
+                  <Button
+                    className="mt-3 btn-outline-dark text-light"
+                    variant="danger"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </Container>
+              </Form>
+            </Container>
+          </Col>
+          <Col>
+            <CreateNewForm></CreateNewForm>
+          </Col>
+        </Row>
       </Container>
+      {branchThings && (
+        <Container>
+          <label className="my-4">
+            <h3>Select the branch below to view responses of the students</h3>{" "}
+          </label>
+
+          <Form onSubmit={handlebranchSelect}>
+            <Form.Select
+              aria-label="Default select example"
+              ref={selectedBranchRef}
+              className="bg-dark text-light"
+            >
+              <option>Select Branch</option>
+              <option value="CSE">CSE</option>
+              <option value="ECE">ECE</option>
+              <option value="EEE">EEE</option>
+            </Form.Select>
+            <Container className="d-flex justify-content-center">
+              <Button
+                className="mt-3 btn-outline-dark text-light"
+                variant="danger"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Container>
+          </Form>
+        </Container>
+      )}
       {/* <Card>
         <Button onClick={fetchStudentHandler}>Fetch Student preferences</Button>
       </Card> */}
@@ -148,7 +251,7 @@ export default function SchedulerTeacher() {
             <div className="my-4">
               <Pie
                 data={{
-                  labels: ["Even Day", "Odd Day"],
+                  labels: [...preferenceOptions],
                   datasets: [
                     {
                       label: "# of votes",

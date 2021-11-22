@@ -19,8 +19,7 @@ export default function StudentDetailItem(props) {
             {props.roll}
           </Card.Subtitle>
           <Card.Text>
-            GPA: {props.cgpa} <br></br> Preference:{" "}
-            {props.preference === "oddDay" ? "Odd Day" : "Even Day"}{" "}
+            GPA: {props.cgpa} <br></br> Preference: {props.preference}{" "}
           </Card.Text>
         </Card.Body>
       </Card>

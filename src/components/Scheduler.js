@@ -17,6 +17,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import CustomOptions from "./CustomOptions";
 
 export default function Scheduler() {
   const { authUser } = useAuth();
@@ -27,17 +28,44 @@ export default function Scheduler() {
   const cgpaRef = useRef();
   const vaccinationStatusRef = useRef();
   const preferenceRef = useRef();
+  const selectedFormRef = useRef();
+  const [formOptions, setFormOptions] = useState([]);
+  const [preferenceOptions, setPreferenceOptions] = useState([]);
 
   useEffect(() => {
-    console.log(chatConfig);
-  }, [chatConfig]);
+    console.log(formOptions);
+  }, [formOptions]);
+
+  useEffect(() => {
+    const fetchForms = async () => {
+      const response = await fetch(
+        "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms.json"
+      );
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+      const data = await response.json();
+
+      let tempFormOptions = [];
+      let tempPreferenceOptions = [];
+
+      for (const key in data) {
+        tempFormOptions.push(key);
+      }
+
+      setFormOptions([...tempFormOptions]);
+    };
+    fetchForms();
+  }, []);
 
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   async function addDetailHandler(student) {
     const response = await fetch(
-      "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/studentDetails/" +
+      "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/" +
+        selectedFormRef.current.value +
+        "/" +
         student.branch +
         ".json",
       {
@@ -79,9 +107,73 @@ export default function Scheduler() {
 
     addDetailHandler(student);
   };
+
+  const fetchPreferenceOptions = async (selectedForm) => {
+    const response = await fetch(
+      "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms/" +
+        selectedForm +
+        "/.json"
+    );
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+    const data = await response.json();
+
+    let tempPreferenceOptions = [];
+    for (const key in data) {
+      tempPreferenceOptions.push(data[key].option1);
+      tempPreferenceOptions.push(data[key].option2);
+    }
+    console.log(tempPreferenceOptions);
+    setPreferenceOptions([...tempPreferenceOptions]);
+  };
+  const selectedFormSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log(selectedFormRef.current.value);
+    fetchPreferenceOptions(selectedFormRef.current.value);
+  };
+
   return (
     <>
       <CustomNavbar></CustomNavbar>
+      <Container>
+        <Row className=" justify-content-center align-self-center">
+          <Col xs={8} className="mx-auto">
+            <label className="my-4">
+              <h3>Select the form to fill your preference</h3>{" "}
+            </label>
+
+            <Form onSubmit={selectedFormSubmitHandler}>
+              <Form.Select
+                aria-label="Default select example"
+                ref={selectedFormRef}
+                className="bg-dark text-light"
+              >
+                <option>Select Form</option>
+                {formOptions.map((option) => {
+                  return (
+                    <CustomOptions value={option} text={option}></CustomOptions>
+                  );
+                })}
+
+                {/* <CustomOptions
+                  value={formOptions[1]}
+                  text={formOptions[1]}
+                ></CustomOptions> */}
+              </Form.Select>
+              <Container className="d-flex justify-content-center">
+                <Button
+                  className="mt-3 btn-outline-dark text-light"
+                  variant="danger"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Container>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
       <Container>
         <Row className=" justify-content-center align-self-center">
           <Col xs={8} className="mx-auto">
@@ -167,8 +259,14 @@ export default function Scheduler() {
                     size="lg"
                   >
                     <option>Choose your preference</option>
-                    <option value="oddDay">Odd-Day</option>
-                    <option value="evenDay">Even-Day</option>
+                    <CustomOptions
+                      value={preferenceOptions[0]}
+                      text={preferenceOptions[0]}
+                    ></CustomOptions>
+                    <CustomOptions
+                      value={preferenceOptions[1]}
+                      text={preferenceOptions[1]}
+                    ></CustomOptions>
                   </Form.Select>
                   <Button
                     variant="danger text-light"
