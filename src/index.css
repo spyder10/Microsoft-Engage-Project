@@ -17,7 +17,52 @@ body {
   background: black !important;
   color: #999 !important;
 }
-
+.ce-chat-feed-container {
+  background-color: #000 !important;
+}
+.ce-chat-title {
+  background-color: #000 !important;
+}
+.ce-settings {
+  background-color: #000 !important;
+}
+.ce-chat-list {
+  background-color: black !important;
+}
+.ce-chats-container {
+  background-color: #000 !important;
+}
+.ce-chat-form-container {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+.ce-section-title-container {
+  background-color: black !important;
+}
+#ce-options-drop-down {
+  background-color: black !important;
+}
+#ce-delete-chat-button {
+  background-color: red !important;
+  color: white !important;
+}
+.ce-chat-card {
+  color: white;
+  background-color: #000 !important;
+}
+.ce-active-chat-card {
+  color: white !important;
+  background-color: #3d3d3d !important;
+}
+#new-chat-plus-button {
+  background-color: #444 !important;
+}
+.ce-chat-settings-container {
+  margin-bottom: 4px;
+}
+.quill {
+  color: black !important;
+}
 ul {
   list-style: none;
 }
@@ -456,6 +501,7 @@ input:valid ~ .floating-label {
 .form-bg-student {
   opacity: 0.9 !important;
 }
+
 @media (max-height: 600px) {
   .showcase-content {
     margin-top: 3rem;
