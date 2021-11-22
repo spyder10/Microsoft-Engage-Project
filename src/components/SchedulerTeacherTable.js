@@ -12,17 +12,25 @@ import { Card, Container } from "react-bootstrap";
 export default function BasicTable(props) {
   return (
     <Container className="mt-3 mb-3">
-      <Card>
-        <TableContainer component={Paper}>
+      <Card className="text-light bg-dark text-muted">
+        <Card.Title align="center"> {props.caption} </Card.Title>
+        <TableContainer className="bg-dark" component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <caption>{props.caption}</caption>
             <TableHead>
               <TableRow>
-                <TableCell>Roll Number</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Branch</TableCell>
-                <TableCell align="right">Assigned Preference</TableCell>
-                <TableCell align="right">CGPA</TableCell>
+                <TableCell className="text-light">Roll Number</TableCell>
+                <TableCell align="right" className="text-light">
+                  Name
+                </TableCell>
+                <TableCell align="right" className="text-light">
+                  Branch
+                </TableCell>
+                <TableCell align="right" className="text-light">
+                  Assigned Preference
+                </TableCell>
+                <TableCell align="right" className="text-light">
+                  CGPA
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -31,15 +39,21 @@ export default function BasicTable(props) {
                   key={student.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
+                  <TableCell className="text-light" component="th" scope="row">
                     {student.roll}
                   </TableCell>
-                  <TableCell align="right">{student.name}</TableCell>
-                  <TableCell align="right">{student.branch}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="right" className="text-light">
+                    {student.name}
+                  </TableCell>
+                  <TableCell align="right" className="text-light">
+                    {student.branch}
+                  </TableCell>
+                  <TableCell align="right" className="text-light">
                     {student.assignedPreference}
                   </TableCell>
-                  <TableCell align="right">{student.cgpa}</TableCell>
+                  <TableCell align="right" className="text-light">
+                    {student.cgpa}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

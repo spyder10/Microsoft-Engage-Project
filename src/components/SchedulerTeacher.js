@@ -97,28 +97,43 @@ export default function SchedulerTeacher() {
     <>
       <CustomNavbar></CustomNavbar>
       <Container>
+        <label className="my-4">
+          <h3>Select the branch below to view responses of the students</h3>{" "}
+        </label>
+
         <Form onSubmit={handlebranchSelect}>
           <Form.Select
             aria-label="Default select example"
             ref={selectedBranchRef}
+            className="bg-dark text-light"
           >
             <option>Select Branch</option>
             <option value="CSE">CSE</option>
             <option value="ECE">ECE</option>
             <option value="EEE">EEE</option>
           </Form.Select>
-          <Button className="w-100 mt-3" type="submit">
-            Submit
-          </Button>
+          <Container className="d-flex justify-content-center">
+            <Button
+              className="mt-3 btn-outline-dark text-light"
+              variant="danger"
+              type="submit"
+            >
+              Submit
+            </Button>
+          </Container>
         </Form>
       </Container>
       {/* <Card>
         <Button onClick={fetchStudentHandler}>Fetch Student preferences</Button>
       </Card> */}
-      <Card>{content}</Card>
-      <Button variant="outline-primary" onClick={generateTablesHandler}>
-        Generate tables
-      </Button>{" "}
+      <Container className="d-flex my-4">{content}</Container>
+      <Container className="d-flex justify-content-center">
+        <Button variant="danger text-light" onClick={generateTablesHandler}>
+          Make Attendence Sheet for Odd and Even Days based on Assigned
+          Preference
+        </Button>{" "}
+      </Container>
+
       {/* {tableData.length > 0 && <BasicTable tableData={tableData} caption="List of students"></BasicTable>} */}
       {oddTableData.length > 0 && (
         <BasicTable
