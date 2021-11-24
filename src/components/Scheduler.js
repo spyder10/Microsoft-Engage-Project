@@ -135,7 +135,7 @@ export default function Scheduler() {
 
   return (
     <>
-      <CustomNavbar></CustomNavbar>
+      <CustomNavbar desk="Student's Desk"></CustomNavbar>
       <Container>
         <Row className=" justify-content-center align-self-center">
           <Col xs={8} className="mx-auto">

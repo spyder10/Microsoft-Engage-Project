@@ -1,4 +1,4 @@
-import { Formik, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useHistory } from "react-router-dom";
 import FormField from "../components/FormField";
 import * as Yup from "yup";
@@ -37,6 +37,7 @@ function SignUp() {
   };
 
   const validationSchema = Yup.object().shape({
+    role: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
     password: Yup.string()
       .required("Required")
@@ -101,10 +102,10 @@ function SignUp() {
           className="typed-text"
           strings={[
             "Take Preference Surveys",
-            "Visulize Student Preferences",
+            "Visualize Student Preferences",
             "Benificial for 50% Attendence Model",
             "Collaborate with students",
-            "Make Attendence Sheets",
+            "Make Preference/Attendence Sheets",
           ]}
           typeSpeed={40}
           backspeed={60}
@@ -165,12 +166,41 @@ function SignUp() {
                         type="password"
                         name="verifyPassword"
                       ></FormField>
-                      <FormField
+                      {/* <FormField
                         label="Role"
                         type="text"
                         name="role"
-                      ></FormField>
-
+                      ></FormField> */}
+                      <div className="text-light">
+                        <label>Role (Student/Teacher)</label>
+                        <Field
+                          as="select"
+                          name="role"
+                          fullWidth
+                          className="bg-dark text-light mx-3 my-3 dropdown btn  btn-secondary"
+                        >
+                          <option className="dropdown-item text-light">
+                            Select Role
+                          </option>
+                          <option
+                            className="dropdown-item text-light"
+                            value="student"
+                          >
+                            Student
+                          </option>
+                          <option
+                            className="dropdown-item text-light"
+                            value="teacher"
+                          >
+                            Teacher
+                          </option>
+                        </Field>
+                        <ErrorMessage
+                          className="text-danger"
+                          component="div"
+                          name="role"
+                        ></ErrorMessage>
+                      </div>
                       <Grid container className="my-3">
                         <Typography>
                           Already got an account?{" "}

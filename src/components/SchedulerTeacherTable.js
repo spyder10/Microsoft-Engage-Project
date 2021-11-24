@@ -11,8 +11,8 @@ import { Card, Container } from "react-bootstrap";
 
 export default function BasicTable(props) {
   return (
-    <Container className="mt-3 mb-3">
-      <Card className="text-light bg-dark text-muted">
+    <Container className="mt-5 mb-5 ">
+      <Card className="text-light bg-dark">
         <Card.Title align="center"> {props.caption} </Card.Title>
         <TableContainer className="bg-dark" component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -1,18 +1,24 @@
 import {
   Navbar,
   Container,
+  Badge,
   NavDropdown,
+  Button,
   Nav,
   NavbarBrand,
 } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
 import { useChat } from "../context/ChatContext";
+import { Link } from "react-router-dom";
+import { fb } from "../service/firebase";
 
 import React from "react";
 
 export default function CustomNavbar(props) {
   const { chatConfig } = useChat();
-
+  const logOutHandler = () => {
+    fb.auth.signOut();
+  };
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container fluid>
@@ -22,22 +28,16 @@ export default function CustomNavbar(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Select Branch" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another Action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">
-                Something else
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
+            <h5 className="mt-2 mx-4">
+              <Link to="/" className="text-decoration-none">
+                Chat Room{" "}
+              </Link>
+            </h5>
+            <h3>
+              <Badge bg="secondary">{props.desk}</Badge>
+            </h3>
           </Nav>
+
           <Nav>
             <Avatar
               className="mx-2"
@@ -52,6 +52,13 @@ export default function CustomNavbar(props) {
                   : " "}{" "}
               </h4>
             </Navbar.Brand>
+            <Button
+              className="btn-outline-dark text-light"
+              variant="secondary"
+              onClick={logOutHandler}
+            >
+              Log Out
+            </Button>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -166,7 +166,7 @@ export default function SchedulerTeacher() {
 
   return (
     <>
-      <CustomNavbar></CustomNavbar>
+      <CustomNavbar desk="Teacher's Desk"></CustomNavbar>
       <Container>
         <Row>
           <Col>
@@ -306,8 +306,7 @@ export default function SchedulerTeacher() {
       {chartThings && (
         <Container className="d-flex justify-content-center">
           <Button variant="danger text-light" onClick={generateTablesHandler}>
-            Make Attendence Sheet for Odd and Even Days based on Assigned
-            Preference
+            Assign Preferences according to CGPA
           </Button>{" "}
         </Container>
       )}
@@ -316,13 +315,13 @@ export default function SchedulerTeacher() {
       {oddTableData.length > 0 && (
         <BasicTable
           tableData={oddTableData}
-          caption="Attendence Sheet for Odd-Days(Mon/Wed/Fri)"
+          caption="Assigned Preference 1"
         ></BasicTable>
       )}
       {evenTableData.length > 0 && (
         <BasicTable
           tableData={evenTableData}
-          caption="Attendence Sheet for Even-Days(Tue/Thu/Sat)"
+          caption="Assigned Preference 2"
         ></BasicTable>
       )}
     </>

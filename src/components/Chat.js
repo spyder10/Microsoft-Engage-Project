@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
+import { fb } from "../service/firebase";
 
 export default function Chat() {
   const {
@@ -20,6 +21,10 @@ export default function Chat() {
   console.log(chatConfig);
 
   const authUser = useAuth();
+
+  const logOutHandler = () => {
+    fb.auth.signOut();
+  };
 
   return (
     <>
@@ -62,6 +67,13 @@ export default function Chat() {
                   chatConfig.userName.slice(1)
                 : " "}
             </Navbar.Brand>{" "}
+            <Button
+              className="btn-outline-dark text-light"
+              variant="secondary"
+              onClick={logOutHandler}
+            >
+              Log Out
+            </Button>
           </Nav>
         </Container>
       </Navbar>
