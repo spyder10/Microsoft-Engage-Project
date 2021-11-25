@@ -31,6 +31,7 @@ export default function Scheduler() {
   const selectedFormRef = useRef();
   const [formOptions, setFormOptions] = useState([]);
   const [preferenceOptions, setPreferenceOptions] = useState([]);
+  const [isFilled, setIsFilled] = useState(false);
 
   useEffect(() => {
     console.log(formOptions);
@@ -59,7 +60,7 @@ export default function Scheduler() {
   }, []);
 
   const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
 
   async function addDetailHandler(student) {
     const response = await fetch(
@@ -78,7 +79,7 @@ export default function Scheduler() {
     );
     const data = await response.json();
     console.log(data);
-    setLoading(true);
+    // setLoading(true);
   }
 
   const submitHandler = (e) => {
@@ -103,7 +104,7 @@ export default function Scheduler() {
     fb.firestore
       .collection("chatUsers")
       .doc(authUser.uid)
-      .update({ isfilled: true });
+      .update({ [selectedFormRef.current.value]: true });
 
     addDetailHandler(student);
   };
@@ -130,6 +131,16 @@ export default function Scheduler() {
   const selectedFormSubmitHandler = (e) => {
     e.preventDefault();
     console.log(selectedFormRef.current.value);
+    fb.firestore
+      .collection("chatUsers")
+      .doc(authUser.uid)
+      .onSnapshot((snap) => {
+        if (selectedFormRef.current.value in snap.data()) {
+          setIsFilled(true);
+        } else {
+          setIsFilled(false);
+        }
+      });
     fetchPreferenceOptions(selectedFormRef.current.value);
   };
 
@@ -192,7 +203,7 @@ export default function Scheduler() {
                   being recorded here. Based on your GPA, you will be awarded
                   your preference.{" "}
                 </div>
-                {chatConfig && chatConfig.isfilled && (
+                {isFilled && (
                   <Alert variant="danger">
                     We got your response. Thank you for filling the form.
                   </Alert>
@@ -270,7 +281,7 @@ export default function Scheduler() {
                   </Form.Select>
                   <Button
                     variant="danger text-light"
-                    disabled={isLoading || (chatConfig && chatConfig.isfilled)}
+                    disabled={isFilled}
                     className="w-100 mt-3"
                     type="submit"
                   >
