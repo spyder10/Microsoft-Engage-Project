@@ -1,11 +1,12 @@
 import { useRef } from "react";
 import { Card, Form, Button, Container, Row, Col } from "react-bootstrap";
 
-export default function CreateNewForm() {
+export default function NewFormCreater() {
   const nameRef = useRef();
   const firstOptionRef = useRef();
   const secondOptionRef = useRef();
 
+  // Add the details of the newly created form by the teacher into the database.
   async function addIntoForms(newForm) {
     const response = await fetch(
       "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms/" +
@@ -22,6 +23,7 @@ export default function CreateNewForm() {
     await response.json();
   }
 
+  //Pulls out the details of the newly created form by the teacher and calls addIntoForm function to put details of the form created into the database.
   const submitHandler = (e) => {
     e.preventDefault();
 

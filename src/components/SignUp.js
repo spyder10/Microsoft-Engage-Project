@@ -34,6 +34,7 @@ function SignUp() {
     margin: "0 auto",
   };
 
+  //validations of entered values using YUP.
   const validationSchema = Yup.object().shape({
     role: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email address").required("Required"),
@@ -49,6 +50,7 @@ function SignUp() {
       .min(3, "Must be at least 3 characters"),
   });
 
+  // Firstly signing up the user in firebase Auth, then creating the same user in chat-engine, then creating a new document for the user in firebase firestore
   const signup = ({ email, userName, password, role }, { setSubmitting }) => {
     fb.auth
       .createUserWithEmailAndPassword(email, password)

@@ -16,7 +16,6 @@ import "../../src/index.css";
 
 const paperStyle = {
   padding: 20,
-  // height: "73vh",
   background: "#000000",
   opacity: "0.7",
   color: "white",
@@ -32,6 +31,8 @@ export default function Login() {
     email: "",
     password: "",
   };
+
+  //Validations of the entered email and password using YUP
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
@@ -73,10 +74,10 @@ export default function Login() {
             className="typed-text"
             strings={[
               "Take Preference Surveys",
-              "Visulize Student Preferences",
+              "Visualize Student Preferences",
               "Benificial for 50% Attendence Model",
               "Collaborate with students",
-              "Make Attendence Sheets",
+              "Make Preference/Attendence Sheets",
             ]}
             typeSpeed={40}
             backspeed={60}

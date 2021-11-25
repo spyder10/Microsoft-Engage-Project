@@ -4,7 +4,7 @@ import { Container, Button, Form, Row, Col } from "react-bootstrap";
 import StudentDetailItem from "./StudentDetailItem";
 import BasicTable from "./SchedulerTeacherTable";
 import { Pie } from "react-chartjs-2";
-import CreateNewForm from "./CreateNewForm";
+import NewFormCreater from "./NewFormCreater";
 import CustomOptions from "./CustomOptions";
 
 export default function SchedulerTeacher() {
@@ -21,6 +21,7 @@ export default function SchedulerTeacher() {
   const [formOptions, setFormOptions] = useState([]);
   const [preferenceOptions, setPreferenceOptions] = useState([]);
 
+  // Fetches the forms to populate the select-form-menu dropdown as soon as the component mounts
   useEffect(() => {
     const fetchForms = async () => {
       const response = await fetch(
@@ -42,6 +43,7 @@ export default function SchedulerTeacher() {
     fetchForms();
   }, []);
 
+  // Fetches preference options corresponding to the selected form from the database.
   const fetchPreferenceOptions = async (selectedForm) => {
     const response = await fetch(
       "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms/" +
@@ -61,6 +63,11 @@ export default function SchedulerTeacher() {
 
     setPreferenceOptions([...tempPreferenceOptions]);
   };
+
+  // Generate tables of Allotment to students. Students are sorted w.r.t CGPA and the student is alloted its preference only if the preference seats are remaining.
+  // Assuming 50% students to be alloted Prefernce A and rest 50% are to be alloted Preference B
+  // For example if a student has preference A and preference A seats are remaining to be filled (Assuming 50% of the total), then the student can be alloted preference A
+  // otherwise the student would be alloted Preference B
 
   const generateTablesHandler = () => {
     if (details.length > 0) {
@@ -106,6 +113,7 @@ export default function SchedulerTeacher() {
     }
   };
 
+  // Fetches details of the students who have filled the selected form and belong to the branch selected by the teacher.
   const fetchStudentHandler = async (selectedBranch) => {
     const response = await fetch(
       "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/" +
@@ -151,6 +159,7 @@ export default function SchedulerTeacher() {
     fetchStudentHandler(selectedBranchRef.current.value);
   };
 
+  // Handles the form selected by the teacher and calls fetchPreferenceOptions to populate legends of chats and other details in the component
   const selectedFormHandler = (e) => {
     e.preventDefault();
     setForm(selectedFormRef.current.value);
@@ -199,7 +208,7 @@ export default function SchedulerTeacher() {
             </Container>
           </Col>
           <Col>
-            <CreateNewForm></CreateNewForm>
+            <NewFormCreater></NewFormCreater>
           </Col>
         </Row>
       </Container>

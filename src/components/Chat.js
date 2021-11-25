@@ -24,7 +24,7 @@ export default function Chat() {
     <>
       <Navbar bg="dark" expand="lg">
         <Container fluid>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand>
             <h1 className="text-danger">Scheduler</h1>
           </Navbar.Brand>
           <Nav className="me-auto mx-4">
@@ -71,6 +71,7 @@ export default function Chat() {
           </Nav>
         </Container>
       </Navbar>
+
       {!!chatConfig &&
         chatConfig.userName &&
         chatConfig.projectID &&

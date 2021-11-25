@@ -12,6 +12,8 @@ function App() {
   const { authUser } = useAuth();
 
   const history = useHistory();
+
+  // If the authUser is not defined, Move to login Page first.
   useEffect(() => {
     if (authUser) {
       history.push("/");

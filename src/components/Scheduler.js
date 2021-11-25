@@ -28,6 +28,7 @@ export default function Scheduler() {
   const [preferenceOptions, setPreferenceOptions] = useState([]);
   const [isFilled, setIsFilled] = useState(false);
 
+  // Fetch the forms in the dropdown as soon as the components mounts
   useEffect(() => {
     const fetchForms = async () => {
       const response = await fetch(
@@ -49,6 +50,7 @@ export default function Scheduler() {
     fetchForms();
   }, []);
 
+  // Add the details entered by the student into the database
   async function addDetailHandler(student) {
     const response = await fetch(
       "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/" +
@@ -67,6 +69,7 @@ export default function Scheduler() {
     await response.json();
   }
 
+  // Pulls out the data entered by the student in a student object . Afterwards addition of the data in the database is performed by calling function addDetailHandler
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -94,6 +97,7 @@ export default function Scheduler() {
     addDetailHandler(student);
   };
 
+  // Fetches the corresponding preferences of the form chosen by the student and thereafter we can populate the select menu of Preference options with the fetched preference options
   const fetchPreferenceOptions = async (selectedForm) => {
     const response = await fetch(
       "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms/" +
@@ -113,6 +117,8 @@ export default function Scheduler() {
 
     setPreferenceOptions([...tempPreferenceOptions]);
   };
+
+  //Handles the form chosen by the student and calls fetchPreferenceOptions function to fetch corresponding preferences of the form chosen
   const selectedFormSubmitHandler = (e) => {
     e.preventDefault();
 
