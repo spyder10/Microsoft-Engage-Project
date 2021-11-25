@@ -1,28 +1,14 @@
-import { useEffect, useState } from "react";
-import { Link, Route, Switch, useHistory, Redirect } from "react-router-dom";
-// import useAuth from "../hooks/useAuth";
-import { useResolved } from "../hooks/useResolved";
+import { useEffect } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Chat from "./Chat";
 import SchedulerTeacher from "./SchedulerTeacher";
 import { ChatProvider } from "../context/ChatContext";
 import Scheduler from "./Scheduler";
-import PrivateRoute from "./PrivateRoute";
 import useAuth from "../hooks/useAuth";
 
 function App() {
-  // const { authUser } = useAuth();
-  // const authResolved = useResolved();
-
-  // const history = useHistory();
-
-  // useEffect(() => {
-  //   console.log(authUser, authResolved);
-  //   if (authResolved) {
-  //     history.push(!!authUser ? "/" : "/login");
-  //   }
-  // }, [authResolved, authUser, history]);
   const { authUser } = useAuth();
 
   const history = useHistory();

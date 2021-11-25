@@ -1,22 +1,5 @@
-import { useRef, useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
-import { useChat } from "../context/ChatContext";
-import { getChat } from "react-chat-engine";
-import CustomNavbar from "./CustomNavbar";
-import { fb } from "../service/firebase";
-import {
-  Navbar,
-  Card,
-  Form,
-  FormGroup,
-  Button,
-  Alert,
-  Container,
-  Nav,
-  NavDropdown,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { useRef } from "react";
+import { Card, Form, Button, Container, Row, Col } from "react-bootstrap";
 
 export default function CreateNewForm() {
   const nameRef = useRef();
@@ -36,17 +19,11 @@ export default function CreateNewForm() {
         },
       }
     );
-    const data = await response.json();
-    console.log(data);
+    await response.json();
   }
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(
-      nameRef.current.value,
-      firstOptionRef.current.value,
-      secondOptionRef.current.value
-    );
 
     const newForm = {
       name: nameRef.current.value,
@@ -68,14 +45,7 @@ export default function CreateNewForm() {
             xs={8}
             className="mx-auto justify-content-center align-self-center"
           >
-            <Card
-              className="mt-4"
-              // style={{
-              //   width: "50rem",
-              // }}
-              bg="dark"
-              text="light"
-            >
+            <Card className="mt-4" bg="dark" text="light">
               <Card.Body>
                 <Form onSubmit={submitHandler}>
                   <Form.Group className="mb-3" id="name">

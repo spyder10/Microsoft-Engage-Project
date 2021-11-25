@@ -1,16 +1,15 @@
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import CustomNavbar from "./CustomNavbar";
-import { Container, Button, Card, Form, Row, Col } from "react-bootstrap";
+import { Container, Button, Form, Row, Col } from "react-bootstrap";
 import StudentDetailItem from "./StudentDetailItem";
 import BasicTable from "./SchedulerTeacherTable";
-import { Pie, defaults } from "react-chartjs-2";
-import { FieldArray } from "formik";
+import { Pie } from "react-chartjs-2";
 import CreateNewForm from "./CreateNewForm";
 import CustomOptions from "./CustomOptions";
 
 export default function SchedulerTeacher() {
   const [details, setdetails] = useState([]);
-  const [tableData, setTableData] = useState([]);
+
   const [oddTableData, setOddTableData] = useState([]);
   const [evenTableData, setEvenTableData] = useState([]);
   const selectedBranchRef = useRef();
@@ -33,12 +32,11 @@ export default function SchedulerTeacher() {
       const data = await response.json();
 
       let tempFormOptions = [];
-      let tempPreferenceOptions = [];
 
       for (const key in data) {
         tempFormOptions.push(key);
       }
-      console.log(tempFormOptions);
+
       setFormOptions([...tempFormOptions]);
     };
     fetchForms();
@@ -60,7 +58,7 @@ export default function SchedulerTeacher() {
       tempPreferenceOptions.push(data[key].option1);
       tempPreferenceOptions.push(data[key].option2);
     }
-    console.log(tempPreferenceOptions);
+
     setPreferenceOptions([...tempPreferenceOptions]);
   };
 
@@ -102,10 +100,7 @@ export default function SchedulerTeacher() {
           evenDayTable.push({ ...arr[i] });
         }
       }
-      console.log(oddDayTable);
-      console.log(evenDayTable);
-      console.log(arr);
-      setTableData([...arr]);
+
       setOddTableData([...oddDayTable]);
       setEvenTableData([...evenDayTable]);
     }
@@ -123,7 +118,7 @@ export default function SchedulerTeacher() {
       throw new Error("Something went wrong!");
     }
     const data = await response.json();
-    console.log(data);
+
     let option1Count = 0;
     let option2Count = 0;
 
@@ -160,7 +155,7 @@ export default function SchedulerTeacher() {
     e.preventDefault();
     setForm(selectedFormRef.current.value);
     fetchPreferenceOptions(selectedFormRef.current.value);
-    console.log(selectedFormRef.current.value);
+
     setBranchThings(true);
   };
 
@@ -237,9 +232,6 @@ export default function SchedulerTeacher() {
           </Form>
         </Container>
       )}
-      {/* <Card>
-        <Button onClick={fetchStudentHandler}>Fetch Student preferences</Button>
-      </Card> */}
 
       <Container>
         <Row>
@@ -272,15 +264,6 @@ export default function SchedulerTeacher() {
                 width={600}
                 options={{
                   maintainAspectRatio: false,
-                  // scales: {
-                  //   yAxes: [
-                  //     {
-                  //       ticks: {
-                  //         beginAtZero: true,
-                  //       },
-                  //     },
-                  //   ],
-                  // },
                   legend: {
                     labels: {
                       fontSize: 25,

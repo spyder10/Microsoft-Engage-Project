@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { fb } from "../service/firebase";
-import { useHistory, Redirect, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import React from "react";
@@ -9,16 +9,10 @@ import Typed from "react-typed";
 import {
   Grid,
   Paper,
-  Avatar,
-  TextField,
-  Button,
   Typography,
   Link as MaterialLink,
 } from "@material-ui/core";
-import { Card } from "react-bootstrap";
 import "../../src/index.css";
-
-import zIndex from "@material-ui/core/styles/zIndex";
 
 const paperStyle = {
   padding: 20,

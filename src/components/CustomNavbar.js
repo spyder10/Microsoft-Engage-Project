@@ -1,12 +1,4 @@
-import {
-  Navbar,
-  Container,
-  Badge,
-  NavDropdown,
-  Button,
-  Nav,
-  NavbarBrand,
-} from "react-bootstrap";
+import { Navbar, Container, Badge, Button, Nav } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
 import { useChat } from "../context/ChatContext";
 import { Link } from "react-router-dom";
@@ -18,6 +10,7 @@ export default function CustomNavbar(props) {
   const { chatConfig } = useChat();
   const logOutHandler = () => {
     fb.auth.signOut();
+    window.location.reload();
   };
   return (
     <Navbar bg="dark" variant="dark" expand="lg">

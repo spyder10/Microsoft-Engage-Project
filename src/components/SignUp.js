@@ -2,16 +2,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useHistory } from "react-router-dom";
 import FormField from "../components/FormField";
 import * as Yup from "yup";
-import { Card, Container } from "react-bootstrap";
 import { useState } from "react";
 import { fb } from "../service/firebase";
 import Typed from "react-typed";
 import {
   Grid,
   Paper,
-  Avatar,
-  TextField,
-  Button,
   Typography,
   Link as MaterialLink,
 } from "@material-ui/core";
@@ -20,7 +16,7 @@ import useAuth from "../hooks/useAuth";
 function SignUp() {
   const history = useHistory();
   const [serverError, setServerError] = useState("");
-  const { authUser, changeAuth } = useAuth();
+  const { changeAuth } = useAuth();
 
   const defaultValues = {
     email: "",

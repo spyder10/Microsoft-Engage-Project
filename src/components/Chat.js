@@ -1,8 +1,5 @@
-import { useEffect } from "react";
-
 import { useChat } from "../context/ChatContext";
 import { getChats, ChatEngine } from "react-chat-engine";
-import useAuth from "../hooks/useAuth";
 import { Navbar, Nav, Container, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
@@ -18,17 +15,10 @@ export default function Chat() {
     setSelectedChat,
   } = useChat();
 
-  console.log(chatConfig);
-
-  const authUser = useAuth();
-
   const logOutHandler = () => {
     fb.auth.signOut();
+    window.location.reload();
   };
-
-  useEffect(() => {
-    console.log(chatConfig);
-  }, [chatConfig]);
 
   return (
     <>

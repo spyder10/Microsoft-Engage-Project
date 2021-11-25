@@ -1,19 +1,14 @@
 import { useRef, useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import { useChat } from "../context/ChatContext";
-import { getChat } from "react-chat-engine";
+
 import CustomNavbar from "./CustomNavbar";
 import { fb } from "../service/firebase";
 import {
-  Navbar,
   Card,
   Form,
-  FormGroup,
   Button,
   Alert,
   Container,
-  Nav,
-  NavDropdown,
   Row,
   Col,
 } from "react-bootstrap";
@@ -21,7 +16,7 @@ import CustomOptions from "./CustomOptions";
 
 export default function Scheduler() {
   const { authUser } = useAuth();
-  const { chatConfig } = useChat();
+
   const nameRef = useRef();
   const branchRef = useRef();
   const rollRef = useRef();
@@ -34,10 +29,6 @@ export default function Scheduler() {
   const [isFilled, setIsFilled] = useState(false);
 
   useEffect(() => {
-    console.log(formOptions);
-  }, [formOptions]);
-
-  useEffect(() => {
     const fetchForms = async () => {
       const response = await fetch(
         "https://working-chat-app-28c9d-default-rtdb.asia-southeast1.firebasedatabase.app/forms.json"
@@ -48,7 +39,6 @@ export default function Scheduler() {
       const data = await response.json();
 
       let tempFormOptions = [];
-      let tempPreferenceOptions = [];
 
       for (const key in data) {
         tempFormOptions.push(key);
@@ -58,9 +48,6 @@ export default function Scheduler() {
     };
     fetchForms();
   }, []);
-
-  const [error, setError] = useState("");
-  // const [isLoading, setLoading] = useState(false);
 
   async function addDetailHandler(student) {
     const response = await fetch(
@@ -77,9 +64,7 @@ export default function Scheduler() {
         },
       }
     );
-    const data = await response.json();
-    console.log(data);
-    // setLoading(true);
+    await response.json();
   }
 
   const submitHandler = (e) => {
@@ -125,12 +110,12 @@ export default function Scheduler() {
       tempPreferenceOptions.push(data[key].option1);
       tempPreferenceOptions.push(data[key].option2);
     }
-    console.log(tempPreferenceOptions);
+
     setPreferenceOptions([...tempPreferenceOptions]);
   };
   const selectedFormSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(selectedFormRef.current.value);
+
     fb.firestore
       .collection("chatUsers")
       .doc(authUser.uid)
@@ -166,11 +151,6 @@ export default function Scheduler() {
                     <CustomOptions value={option} text={option}></CustomOptions>
                   );
                 })}
-
-                {/* <CustomOptions
-                  value={formOptions[1]}
-                  text={formOptions[1]}
-                ></CustomOptions> */}
               </Form.Select>
               <Container className="d-flex justify-content-center">
                 <Button
@@ -188,14 +168,7 @@ export default function Scheduler() {
       <Container>
         <Row className=" justify-content-center align-self-center">
           <Col xs={8} className="mx-auto">
-            <Card
-              className="mt-4"
-              // style={{
-              //   width: "50rem",
-              // }}
-              bg="dark"
-              text="light"
-            >
+            <Card className="mt-4" bg="dark" text="light">
               <Card.Body>
                 <h2 className="text-light">Fill your preference</h2>
                 <div className="mb-3">
@@ -208,9 +181,6 @@ export default function Scheduler() {
                     We got your response. Thank you for filling the form.
                   </Alert>
                 )}
-                {/* {isLoading && (
-              <Alert variant="danger">Your responses have been submitted</Alert>
-            )} */}
                 <Form onSubmit={submitHandler}>
                   <Form.Group className="mb-3" id="name">
                     <Form.Label>Name</Form.Label>
