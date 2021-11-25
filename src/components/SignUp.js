@@ -15,10 +15,12 @@ import {
   Typography,
   Link as MaterialLink,
 } from "@material-ui/core";
+import useAuth from "../hooks/useAuth";
 
 function SignUp() {
   const history = useHistory();
   const [serverError, setServerError] = useState("");
+  const { authUser, changeAuth } = useAuth();
 
   const defaultValues = {
     email: "",
@@ -70,6 +72,7 @@ function SignUp() {
               .collection("chatUsers")
               .doc(res.user.uid)
               .set({ userName, avatar: "", role, isfilled: false });
+            changeAuth();
           });
         } else {
           setServerError(

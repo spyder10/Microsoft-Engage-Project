@@ -26,6 +26,10 @@ export default function Chat() {
     fb.auth.signOut();
   };
 
+  useEffect(() => {
+    console.log(chatConfig);
+  }, [chatConfig]);
+
   return (
     <>
       <Navbar bg="dark" expand="lg">
@@ -63,8 +67,8 @@ export default function Chat() {
             ></Avatar>
             <Navbar.Brand className="avatar text-light">
               {chatConfig
-                ? chatConfig.userName.charAt(0).toUpperCase() +
-                  chatConfig.userName.slice(1)
+                ? chatConfig.userName?.charAt(0).toUpperCase() +
+                  chatConfig.userName?.slice(1)
                 : " "}
             </Navbar.Brand>{" "}
             <Button
@@ -77,34 +81,37 @@ export default function Chat() {
           </Nav>
         </Container>
       </Navbar>
-      {!!chatConfig && (
-        <ChatEngine
-          height="100vh"
-          width="100vw"
-          userName={chatConfig.userName}
-          projectID={chatConfig.projectID}
-          userSecret={chatConfig.userSecret}
-          onConnect={() => {
-            getChats(chatConfig, setMyChats);
-          }}
-          onNewChat={(chat) => {
-            if (chat.admin.username === chatConfig.userName) {
-              selectChatClick(chat);
-            }
-            setMyChats([...myChats, chat].sort((a, b) => a.id - b.id));
-          }}
-          onDeleteChat={(chat) => {
-            if (selectedChat?.id === chat.id) {
-              setSelectedChat(null);
-            }
-            setMyChats(
-              myChats
-                .filter((c) => c.id !== chat.id)
-                .sort((a, b) => a.id - b.id)
-            );
-          }}
-        />
-      )}
+      {!!chatConfig &&
+        chatConfig.userName &&
+        chatConfig.projectID &&
+        chatConfig.userSecret && (
+          <ChatEngine
+            height="100vh"
+            width="100vw"
+            userName={chatConfig.userName}
+            projectID={chatConfig.projectID}
+            userSecret={chatConfig.userSecret}
+            onConnect={() => {
+              getChats(chatConfig, setMyChats);
+            }}
+            onNewChat={(chat) => {
+              if (chat.admin.username === chatConfig.userName) {
+                selectChatClick(chat);
+              }
+              setMyChats([...myChats, chat].sort((a, b) => a.id - b.id));
+            }}
+            onDeleteChat={(chat) => {
+              if (selectedChat?.id === chat.id) {
+                setSelectedChat(null);
+              }
+              setMyChats(
+                myChats
+                  .filter((c) => c.id !== chat.id)
+                  .sort((a, b) => a.id - b.id)
+              );
+            }}
+          />
+        )}
     </>
   );
 }
