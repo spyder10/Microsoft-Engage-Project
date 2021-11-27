@@ -90,23 +90,24 @@ on their own choice and their CGPA, they would be alloted their choice.
 
 Login Screen
 
-![Login Screen](./Screenshots/Login screen.PNG)
+![Login Screen](./Screenshots/login.PNG)
 
 Sign Up Screen
 
-![Sign Screen]()
+![Sign Screen](./Screenshots/signup.PNG)
 
 Chat Screen UI
 
-![Chat Screen]()
+![Chat Screen](./Screenshots/ChatInterface.PNG)
 
 Teacher's Desk
 
-![Teacher's Desk]()
+![Teacher's Desk](./Screenshots/teacher'sDesk1.PNG)
+![Teacher's Desk](./Screenshots/Teacher'sDesk2.PNG)
 
 Student's Desk
 
-![Student's Desk]()
+![Student's Desk](./Screenshots/Student'sDesk.PNG)
 
 ## Installation
 
